@@ -1,0 +1,9 @@
+problem.cpp
+problem
+# Ignore object files
+*.o
+
+# Optionally ignore:
+*.obj
+*.lo
+*.a
