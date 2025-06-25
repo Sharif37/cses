@@ -1,0 +1,59 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int size_array, no_operation;
+    cin >> size_array >> no_operation;
+
+    vector<int> v(size_array + 1);
+    vector<int> pos(size_array + 1);
+
+    for (int i = 1; i <= size_array; i++) {
+        cin >> v[i];
+        pos[v[i]] = i;
+    }
+
+    int rounds = 1;
+    for (int i = 1; i < size_array; i++) {
+        if (pos[i] > pos[i + 1]) rounds++;
+    }
+
+    for (int i = 0; i < no_operation; i++) {
+        int a, b;
+        cin >> a >> b;
+
+        int x = v[a];
+        int y = v[b];
+
+        set<int> affected = {x, y};
+        for (int val : {x, y}) {
+            if (val > 1) affected.insert(val - 1);
+            if (val < size_array) affected.insert(val + 1);
+        }
+
+       
+        for (int val : affected) {
+            if (val >= 1 && val < size_array) {
+                if (pos[val] > pos[val + 1]) rounds--;
+            }
+        }
+
+        
+        swap(v[a], v[b]);
+        swap(pos[x], pos[y]);
+
+        
+        for (int val : affected) {
+            if (val >= 1 && val < size_array) {
+                if (pos[val] > pos[val + 1]) rounds++;
+            }
+        }
+
+        cout << rounds << '\n';
+    }
+
+    return 0;
+}
